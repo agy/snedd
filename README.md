@@ -25,6 +25,8 @@ I jokingly mentioned to a colleague that it would be cool if a machine was
 marked as "tainted" when a user logged in using SSH and prompted that the
 self destruct sequence was initiated.
 
+This is the result.
+
 ![inspector-gadget-self-destruct](https://cloud.githubusercontent.com/assets/112317/24335641/0ecabbf4-123f-11e7-96f7-8f873c2e1a6c.gif)
 
 ## How it Works
@@ -36,6 +38,14 @@ login and a custom motd message is presented to the user. The script runs a
 Lambda function to tag the node for destruction. On a schedule, a reaper
 Lambda function is run to delete nodes that have been tagged for
 destruction.
+
+## Requirements
+
+The following packages are required:
+ * awscli
+ * curl
+ * figlet
+ * update-motd
 
 ## Problems and Caveats
 
