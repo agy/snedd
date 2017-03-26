@@ -27,8 +27,19 @@ self destruct sequence was initiated.
 
 ![inspector-gadget-self-destruct](https://cloud.githubusercontent.com/assets/112317/24335641/0ecabbf4-123f-11e7-96f7-8f873c2e1a6c.gif)
 
+## How it Works
+
+*Note: This has only been tested on Ubuntu 16.04*
+
+The node has a custom motd script installed. The script is run on a SSH
+login and a custom motd message is presented to the user. The script runs a
+Lambda function to tag the node for destruction. On a schedule, a reaper
+Lambda function is run to delete nodes that have been tagged for
+destruction.
+
 ## Problems and Caveats
 
+ * Snedd will only work on AWS.
  * Snedd will not trigger on non-interactive SSH logins.
  * If your SSH client uses a control socket (i.e. `ControlPath`) you will
    only be shown the motd on the first login.
