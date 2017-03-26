@@ -47,7 +47,7 @@ The following packages are required:
  * figlet
  * update-motd
 
-## Problems and Caveats
+## Issues and Caveats
 
  * Snedd will only work on AWS.
  * Snedd will not trigger on non-interactive SSH logins.
