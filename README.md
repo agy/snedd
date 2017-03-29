@@ -49,7 +49,7 @@ The following packages are required:
 
 ## Issues and Caveats
 
- * Snedd will only work on AWS.
+ * Snedd will only work within AWS.
  * Snedd will not trigger on non-interactive SSH logins.
  * If your SSH client uses a control socket (i.e. `ControlPath`) you will
    only be shown the motd on the first login.
