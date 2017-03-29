@@ -8,6 +8,9 @@ The Self (ne) Destruct Device.
 > year from the date of sentence [...] a few go the whole hog and graft
 > display tissue onto the foreheads of executed criminals in the shape of
 > digital numbers, to give a read-out of how many days the guy has left.
+> Soom people think this is unnecessarily bloody-minded, but the Foreheaders
+> don't mind too much. Often it gets them served quicker in restuarants
+> because the staff can see the guy doesn't have much time to waste.
 
  -- Michael Marshall Smith, Only Forward
 
