@@ -1,6 +1,6 @@
 # Snedd
 
-The Self (ne) Destruct Device.
+The **S**elf (**ne**) **D**estruct **D**evice.
 
 > Snedd has numbers on his forehead because he was condemned to death. [...]
 > The penalty for incursion into their Neighbourhood is death by DNA
