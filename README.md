@@ -25,8 +25,8 @@ gradual drift in configuration, even when Configuration Management is used
 to mitigate the problem.
 
 I jokingly mentioned to a colleague that it would be cool if a machine was
-marked as "tainted" when a user logged in using SSH and prompted that the
-self destruct sequence was initiated.
+marked as "tainted" when a user logged in using SSH and then prompted that
+the self destruct sequence was initiated.
 
 This is the result.
 
