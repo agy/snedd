@@ -1,0 +1,16 @@
+{
+  "Comment": "The Self (ne) Destruct Device",
+  "StartAt": "wait",
+  "States": {
+    "wait": {
+      "Type": "Wait",
+      "SecondsPath": "$.ttl",
+      "Next": "expire_instance"
+    },
+    "expire_instance": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:ACCOUNTID:function:snedd-expirer",
+      "End": true
+    }
+  }
+}

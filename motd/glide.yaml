@@ -1,0 +1,6 @@
+package: github.com/agy/snedd/motd
+import:
+- package: github.com/aws/aws-sdk-go
+  subpackages:
+  - aws/ec2metadata
+  - aws/session

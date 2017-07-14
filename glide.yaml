@@ -1,0 +1,6 @@
+package: github.com/agy/snedd
+import:
+- package: github.com/eawsy/aws-lambda-go-core
+  subpackages:
+  - service/lambda/runtime
+- package: github.com/fullsailor/pkcs7
