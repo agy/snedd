@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
@@ -103,6 +104,16 @@ func Handle(evt json.RawMessage, ctx *runtime.Context) (interface{}, error) {
 		return nil, errors.New("invalid state machine ARN")
 	}
 
+	ttl := os.Getenv("TTL")
+	if ttl == "" {
+		ttl = "30"
+	}
+
+	expiry, err := strconv.Atoi(ttl)
+	if err != nil {
+		return nil, err
+	}
+
 	msg := new(Message)
 	if err := json.Unmarshal(evt, &msg); err != nil {
 		return nil, err
@@ -116,7 +127,7 @@ func Handle(evt json.RawMessage, ctx *runtime.Context) (interface{}, error) {
 	sess := session.Must(session.NewSession())
 	svc := sfn.New(sess)
 
-	execInput := fmt.Sprintf(`{"ttl": %d}`, msg.TTL)
+	execInput := fmt.Sprintf(`{"ttl": %d, "instance-id": "%s"}`, expiry, doc.InstanceID)
 	execName := fmt.Sprintf("snedd-%s", doc.InstanceID)
 
 	input := &sfn.StartExecutionInput{
