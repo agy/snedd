@@ -94,7 +94,7 @@ func Invoke(i *instance, fnName string) (*lambda.InvokeOutput, error) {
 
 func main() {
 	var (
-		fnName = flag.String("fn-name", "snedd-expirer", "Lambda function name")
+		fnName = flag.String("fn-name", "snedd-initiator", "Lambda function name")
 		runDir = flag.String("run-dir", "/run/snedd", "Temporary storage directory")
 	)
 	flag.Parse()
