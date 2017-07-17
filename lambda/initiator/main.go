@@ -6,7 +6,6 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 
@@ -138,14 +137,11 @@ func Handle(evt json.RawMessage, ctx *runtime.Context) (interface{}, error) {
 		StateMachineArn: aws.String(stateMachineARN),
 	}
 
-	res, err := svc.StartExecution(input)
-	if err != nil {
+	if _, err := svc.StartExecution(input); err != nil {
 		return nil, err
 	}
 
-	log.Println(res)
-
-	return res, nil
+	return execInput, nil
 }
 
 func main() {}
