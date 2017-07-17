@@ -109,6 +109,8 @@ func Handle(evt json.RawMessage, ctx *runtime.Context) (interface{}, error) {
 		ttl = "30"
 	}
 
+	// While golang handles strconv.Atoi("") correctly, the eawsy shim
+	// seems to choke on it.
 	expiry, err := strconv.Atoi(ttl)
 	if err != nil {
 		return nil, err
