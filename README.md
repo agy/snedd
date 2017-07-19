@@ -30,7 +30,7 @@ Snedd is the result.
 
 ## Demo
 
-[![asciicast](https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe.png)](https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe)
+[<img src="https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe.png" width="500">](https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe)
 
 ## How it Works
 
