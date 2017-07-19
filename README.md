@@ -46,6 +46,11 @@ The following packages are required:
  * Two Lambda functions: the initiator and the expirer
  * A Step Function state machine definition
 
+## Build Requirements
+
+All the commands are built with Golang 1.8.3. The Lambda functions use the
+[eawsy Lambda shim](https://github.com/eawsy/aws-lambda-go-shim).
+
 ## Issues and Caveats
 
  * Snedd will only work within AWS.
