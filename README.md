@@ -70,24 +70,8 @@ All the commands are built with Golang 1.8.3. The Lambda functions use the
 [eawsy Lambda shim](https://github.com/eawsy/aws-lambda-go-shim) which uses
 Docker.
 
-### Build `snedd-initiator`
+To build:
 ```
-$ cd lambda/initiator/
-$ make
-```
-
-### Build `snedd-expirer`
-```
-$ cd lambda/expirer/
-$ make
-```
-
-### Build `snedd-motd`
-
-This will probably only work on Linux.
-
-```
-$ cd motd/
 $ make
 ```
 
