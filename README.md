@@ -42,6 +42,20 @@ initiator function which in turn invokes an AWS State Machine which calls an
 expirer Lambda function to delete the node after a configurable period of
 time.
 
+![snedd-workflow](https://user-images.githubusercontent.com/112317/28386816-cfccde80-6c9a-11e7-919a-7506476beeec.png)
+
+ 1. User logs into EC2 instance with `snedd` installed
+ 1. `snedd` retrieves the instance's PKCS7 encrypted identity document
+ 1. `snedd` calls the `snedd-initiator` Lambda function and includes the
+    identity document
+ 1. The Lambda function decrypts and validates the identity document,
+    retrieves the instance ID and executes the Step Function
+ 1. The Step Function waits for the configured period of time
+ 1. The Step Function then calls the `snedd-expirer` Lambda function
+    including the instance ID
+ 1. The `snedd-expirer` Lambda function makes an AWS EC2 API call to
+    terminate the instance with the given instance ID
+
 ## Requirements
 
 The following packages are required:
