@@ -69,6 +69,12 @@ The following packages are required:
 All the commands are built with Golang 1.8.3. The Lambda functions use the
 [eawsy Lambda shim](https://github.com/eawsy/aws-lambda-go-shim).
 
+## Deployment
+
+A sample [Terraform](https://www.terraform.io/) config is supplied in the
+`terraform` directory. The included `README` should have most of the
+information required.
+
 ## Issues and Caveats
 
  * Snedd will only work within AWS.
