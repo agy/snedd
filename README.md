@@ -14,41 +14,37 @@ The **S**elf (**ne**) **D**estruct **D**evice.
 
  -- Michael Marshall Smith, Only Forward
 
-Unless it's not clear, Snedd isn't meant to be a "serious" solution.
-
 ## Overview
 
 While modern infrastructure reduces the need to log in to machines manually
-it doesn't (yet) eliminate it. Sometimes you need to log in to that one
-machine to debug that obscure problem. This can eventually result in a
-gradual drift in configuration, even when Configuration Management is used
+it doesn't (yet) eliminate it. Sometimes you really need to log in to that
+one machine to debug that obscure problem. This can eventually result in a
+gradual drift in configuration, even when configuration management is used
 to mitigate the problem.
 
 I jokingly mentioned to a colleague that it would be cool if a machine was
-marked as "tainted" when a user logged in using SSH and then prompted that
-the self destruct sequence was initiated.
+marked as "tainted" when a user logged in using SSH and that it would
+self-destruct after a period of time.
 
-This is the result.
-
-![inspector-gadget-self-destruct](https://cloud.githubusercontent.com/assets/112317/24335641/0ecabbf4-123f-11e7-96f7-8f873c2e1a6c.gif)
+Snedd is the result.
 
 ## How it Works
 
-*Note: This has only been tested on Ubuntu 16.04*
+*Note: This has only been tested on Ubuntu 16.04 within AWS*
 
 The node has a custom motd script installed. The script is run on a SSH
-login and a custom motd message is presented to the user. The script runs a
-Lambda function to tag the node for destruction. On a schedule, a reaper
-Lambda function is run to delete nodes that have been tagged for
-destruction.
+login and a motd message is presented to the user. The script runs a Lambda
+initiator function which in turn invokes an AWS State Machine which calls an
+expirer Lambda function to delete the node after a configurable period of
+time.
 
 ## Requirements
 
 The following packages are required:
- * awscli
- * curl
- * figlet
- * update-motd
+ * A machine with an IAM instance profile allowed to execute the initiator
+   Lambda function
+ * Two Lambda functions: the initiator and the expirer
+ * A Step Function state machine definition
 
 ## Issues and Caveats
 
@@ -57,8 +53,28 @@ The following packages are required:
  * If your SSH client uses a control socket (i.e. `ControlPath`) you will
    only be shown the motd on the first login.
 
+## Questions
+
+ * *Q:* Why not just use one Lambda function?
+ * *A:* Lambda functions have a maximum execution time of 300 seconds. This
+   doesn't give much debugging time.
+
+ * *Q*: How secure is this?
+ * *A*: Snedd is a toy system. That said, the motd command retrieves the
+   instance's encrypted identity-document and uses this to authorize with
+   the initiator Lambda function. The instance ID is retrieved from the
+   decrypted document. The validity of the document is checked, however the
+   expiry time is not!
+
+ * *Q*: What is the maximum time that can be configured to wait before
+   terminating the instance?
+ * *A*: This is dependent on AWS Step Functions limits. The current limit is
+   one year.
+
 ## References and Prior Art
 
  * [How To Set Up Slack SSH Session Notifications](http://www.ryanbrink.com/slack-ssh-session-notifications/)
  * [Invoke Lambda Function from the CLI](http://docs.aws.amazon.com/lambda/latest/dg/with-userapp-walkthrough-custom-events-invoke.html)
  * [Using AWS Lambda with Scheduled Events](http://docs.aws.amazon.com/lambda/latest/dg/with-scheduled-events.html)
+
+![inspector-gadget-self-destruct](https://cloud.githubusercontent.com/assets/112317/24335641/0ecabbf4-123f-11e7-96f7-8f873c2e1a6c.gif)
