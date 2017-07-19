@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strconv"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
@@ -41,11 +40,6 @@ type instance struct {
 	Cert   string `json:"pkcs7"`
 	ID     string `json:"instance-id"`
 	Region string `json:"-"`
-}
-
-type response struct {
-	ID  string `json:"instance-id"`
-	TTL int    `json:"ttl"`
 }
 
 func InstanceMeta() (*instance, error) {
@@ -106,6 +100,10 @@ func NewErrLog() *log.Logger {
 	return log.New(os.Stderr, "", 0)
 }
 
+func showBanner() {
+	fmt.Println(banner)
+}
+
 func main() {
 	var (
 		fnName = flag.String("fn-name", "snedd-initiator", "Lambda function name")
@@ -115,8 +113,9 @@ func main() {
 
 	sem := fmt.Sprintf("%s/triggered", *runDir)
 
-	// Exit if we've run before
+	// Show banner and exit if we've run before
 	if _, err := os.Stat(sem); err == nil {
+		showBanner()
 		os.Exit(0)
 	}
 
@@ -137,14 +136,8 @@ func main() {
 		ErrLog.Fatal(errors.New("lambda invocation failed"))
 	}
 
-	var payload response
-	if err := json.Unmarshal(res.Payload, &payload); err != nil {
-		ErrLog.Fatal(errors.New("could not decode response"))
-	}
-
 	// Write the semaphore file and ignore failures
-	ioutil.WriteFile(sem, []byte(strconv.Itoa(payload.TTL)), 0444)
+	ioutil.WriteFile(sem, []byte(""), 0444)
 
-	fmt.Printf("payload: %+v\n", payload)
-	fmt.Println(banner)
+	showBanner()
 }
