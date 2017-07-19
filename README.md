@@ -28,6 +28,10 @@ self-destruct after a period of time.
 
 Snedd is the result.
 
+## Demo
+
+[![asciicast](https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe.png)](https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe)
+
 ## How it Works
 
 *Note: This has only been tested on Ubuntu 16.04 within AWS*
