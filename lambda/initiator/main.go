@@ -22,6 +22,11 @@ type Message struct {
 	TTL   uint   `json:"ttl"`
 }
 
+type ExecInput struct {
+	InstanceID string `json:"instance-id"`
+	TTL        int    `json:"ttl"`
+}
+
 func awsCerts() ([]*x509.Certificate, error) {
 	const AWSCert = `-----BEGIN CERTIFICATE-----
 MIIC7TCCAq0CCQCWukjZ5V4aZzAJBgcqhkjOOAQDMFwxCzAJBgNVBAYTAlVTMRkw
@@ -97,6 +102,39 @@ func decodeIdentityDocument(IDDoc string) (*ec2metadata.EC2InstanceIdentityDocum
 	return doc, nil
 }
 
+func execSfn(stateMachineARN, instanceID string, ttl int) (*ExecInput, error) {
+	sfnInput := &ExecInput{
+		InstanceID: instanceID,
+		TTL:        ttl,
+	}
+
+	execInput, err := json.Marshal(sfnInput)
+	if err != nil {
+		return nil, err
+	}
+
+	execName := fmt.Sprintf("snedd-%s", instanceID)
+
+	input := &sfn.StartExecutionInput{
+		Input:           aws.String(string(execInput)),
+		Name:            aws.String(execName),
+		StateMachineArn: aws.String(stateMachineARN),
+	}
+
+	sess, err := session.NewSession()
+	if err != nil {
+		return nil, err
+	}
+
+	svc := sfn.New(sess)
+
+	if _, err := svc.StartExecution(input); err != nil {
+		return nil, err
+	}
+
+	return sfnInput, nil
+}
+
 func Handle(evt json.RawMessage, ctx *runtime.Context) (interface{}, error) {
 	stateMachineARN := os.Getenv("STATEMACHINEARN")
 	if stateMachineARN == "" {
@@ -125,23 +163,13 @@ func Handle(evt json.RawMessage, ctx *runtime.Context) (interface{}, error) {
 		return nil, err
 	}
 
-	sess := session.Must(session.NewSession())
-	svc := sfn.New(sess)
-
-	execInput := fmt.Sprintf(`{"ttl": %d, "instance-id": "%s"}`, expiry, doc.InstanceID)
-	execName := fmt.Sprintf("snedd-%s", doc.InstanceID)
-
-	input := &sfn.StartExecutionInput{
-		Input:           aws.String(execInput),
-		Name:            aws.String(execName),
-		StateMachineArn: aws.String(stateMachineARN),
-	}
-
-	if _, err := svc.StartExecution(input); err != nil {
+	res, err := execSfn(stateMachineARN, doc.InstanceID, expiry)
+	if err != nil {
 		return nil, err
 	}
 
-	return execInput, nil
+	// automatically marshalled to JSON
+	return res, nil
 }
 
 func main() {}
