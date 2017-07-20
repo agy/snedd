@@ -44,8 +44,9 @@ time.
 
 ![snedd-workflow](https://user-images.githubusercontent.com/112317/28386816-cfccde80-6c9a-11e7-919a-7506476beeec.png)
 
- 1. User logs into EC2 instance with `snedd` installed
- 1. `snedd` retrieves the instance's PKCS7 encrypted identity document
+ 1. User logs into EC2 instance with `snedd` motd installed
+ 1. `snedd` retrieves the instance's PKCS7 encrypted identity document from
+    the AWS EC2 [metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html)
  1. `snedd` calls the `snedd-initiator` Lambda function and includes the
     identity document
  1. The Lambda function decrypts and validates the identity document,
