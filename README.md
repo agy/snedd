@@ -81,6 +81,18 @@ A sample [Terraform](https://www.terraform.io/) config is supplied in the
 `terraform` directory. The included `README` should have most of the
 information required.
 
+## Install on the EC2 instance(s)
+
+The built `motd` command should be installed on your Ubuntu 16.04 machine
+within the `/etc/update-motd.d/` directory. You may want to clean out some
+of the shipped scripts in this directory to have a cleaner motd.
+
+I run the following:
+```
+$ sudo install -d -o root -g root -m 0700 /run/snedd
+$ sudo install -o root -g root -m 0755 /path/to/motd /etc/update-motd.d/99-snedd-motd
+```
+
 ## Issues and Caveats
 
  * Snedd will only work within AWS.
