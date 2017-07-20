@@ -32,6 +32,8 @@ Snedd is the result.
 
 [<img src="https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe.png" width="500">](https://asciinema.org/a/DmSOXSVtlKPO2JrbU4PmB6IQe)
 
+It's rather fun with instances managed by EC2 autoscaling groups!
+
 ## How it Works
 
 *Note: This has only been tested on Ubuntu 16.04 within AWS*
